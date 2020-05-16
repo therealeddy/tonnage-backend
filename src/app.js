@@ -13,6 +13,8 @@ class App {
     this.middlewares();
     this.routes();
     this.axceptionHandler();
+
+    console.log('Server ON');
   }
 
   middlewares() {
