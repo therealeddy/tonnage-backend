@@ -1,23 +1,18 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('trucks', {
+    return queryInterface.createTable('configurations', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      board: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      model: {
+      type: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      brand: {
-        type: Sequelize.STRING,
+      price_per_kilometer: {
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       created_at: {
@@ -32,6 +27,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('trucks');
+    return queryInterface.dropTable('configurations');
   },
 };
