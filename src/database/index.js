@@ -2,10 +2,12 @@ import Sequelize from 'sequelize';
 
 import Truck from '../app/models/Truck';
 import Configuration from '../app/models/Configuration';
+import Solicitation from '../app/models/Solicitation';
+import Route from '../app/models/Route';
 
 import databaseConfig from '../config/database';
 
-const models = [Truck, Configuration];
+const models = [Truck, Configuration, Solicitation, Route];
 
 class Database {
   constructor() {
