@@ -1,5 +1,6 @@
 import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
+import History from '../models/History';
 
 class SolicitationController {
   async index(req, res) {
@@ -48,9 +49,14 @@ class SolicitationController {
 
     const route = await Route.create(body);
 
-    await Solicitation.create({
+    const solicitation = await Solicitation.create({
       id_route: route.id,
       status: 'create',
+    });
+
+    await History.create({
+      id_solicitation: solicitation.id,
+      action: 'create',
     });
 
     return res.json({ success: 'Solicitação feita com sucesso!' });
@@ -59,11 +65,18 @@ class SolicitationController {
   async update(req, res) {
     const { body } = req;
 
+    const { status } = body;
+
     const { id } = req.params;
 
     const solicitation = await Solicitation.findByPk(id);
 
     await solicitation.update(body);
+
+    await History.create({
+      id_solicitation: solicitation.id,
+      action: status,
+    });
 
     return res.json({ success: 'Solicitação atualizada com sucesso!' });
   }
