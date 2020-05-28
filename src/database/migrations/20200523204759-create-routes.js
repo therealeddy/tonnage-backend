@@ -1,22 +1,33 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('trucks', {
+    return queryInterface.createTable('routes', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      board: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      model: {
+      destination_address: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      brand: {
+      destination_latitude: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      destination_longitude: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      origin_address: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      origin_latitude: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      origin_longitude: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -32,6 +43,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('trucks');
+    return queryInterface.dropTable('routes');
   },
 };

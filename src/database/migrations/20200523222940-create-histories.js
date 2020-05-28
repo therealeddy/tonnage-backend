@@ -1,22 +1,20 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('trucks', {
+    return queryInterface.createTable('histories', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      board: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
+      id_solicitation: {
+        type: Sequelize.INTEGER,
+        references: { model: 'solicitations', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: true,
       },
-      model: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      brand: {
+      action: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -32,6 +30,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('trucks');
+    return queryInterface.dropTable('histories');
   },
 };
