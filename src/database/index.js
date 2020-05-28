@@ -1,10 +1,14 @@
 import Sequelize from 'sequelize';
 
 import Truck from '../app/models/Truck';
+import Configuration from '../app/models/Configuration';
+import Solicitation from '../app/models/Solicitation';
+import Route from '../app/models/Route';
+import History from '../app/models/History';
 
 import databaseConfig from '../config/database';
 
-const models = [Truck];
+const models = [Truck, Configuration, Solicitation, Route, History];
 
 class Database {
   constructor() {
@@ -15,8 +19,10 @@ class Database {
     this.connection = new Sequelize(databaseConfig);
 
     models
-      .map(model => model.init(this.connection))
-      .map(model => model.associate && model.associate(this.connection.models));
+      .map((model) => model.init(this.connection))
+      .map(
+        (model) => model.associate && model.associate(this.connection.models)
+      );
   }
 }
 
