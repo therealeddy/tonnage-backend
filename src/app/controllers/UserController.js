@@ -47,7 +47,7 @@ class UserController {
 
     await Role.create({
       id_user,
-      role: 0,
+      role: 1,
     });
 
     return res.json({ success: 'Usúario cadastrado com sucesso!' });
