@@ -20,6 +20,11 @@ routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 
+routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
+routes.put('/users/:id', UserController.update);
+routes.delete('/users/:id', UserController.delete);
+
 routes.get('/trucks', TruckController.index);
 routes.get('/trucks/:id', TruckController.show);
 routes.post('/trucks', TruckController.store);
