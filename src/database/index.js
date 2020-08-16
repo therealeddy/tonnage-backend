@@ -5,10 +5,12 @@ import Configuration from '../app/models/Configuration';
 import Solicitation from '../app/models/Solicitation';
 import Route from '../app/models/Route';
 import History from '../app/models/History';
+import User from '../app/models/User';
+import Role from '../app/models/Role';
 
 import databaseConfig from '../config/database';
 
-const models = [Truck, Configuration, Solicitation, Route, History];
+const models = [Truck, Configuration, Solicitation, Route, History, User, Role];
 
 class Database {
   constructor() {

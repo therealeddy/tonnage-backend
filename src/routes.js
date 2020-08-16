@@ -4,12 +4,21 @@ import TruckController from './app/controllers/TruckController';
 import ConfigurationController from './app/controllers/ConfigurationController';
 import SolicitationController from './app/controllers/SolicitationController';
 import HistoryController from './app/controllers/HistoryController';
+import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
+
+import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
 routes.get('/', (req, res) => {
   return res.json({ api: true });
 });
+
+routes.post('/users', UserController.store);
+routes.post('/sessions', SessionController.store);
+
+routes.use(authMiddleware);
 
 routes.get('/trucks', TruckController.index);
 routes.get('/trucks/:id', TruckController.show);
