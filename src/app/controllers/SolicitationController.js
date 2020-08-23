@@ -7,9 +7,7 @@ class SolicitationController {
     const { userId } = req;
     const { paged = 1, status = null } = req.query;
 
-    const { count } = await Solicitation.findAndCountAll();
-
-    const rows = await Solicitation.findAll({
+    const { count, rows } = await Solicitation.findAndCountAll({
       where: status
         ? {
             id_user: userId,
@@ -97,25 +95,6 @@ class SolicitationController {
     });
 
     return res.json({ success: 'Solicitação feita com sucesso!' });
-  }
-
-  async update(req, res) {
-    const { body } = req;
-
-    const { status } = body;
-
-    const { id } = req.params;
-
-    const solicitation = await Solicitation.findByPk(id);
-
-    await solicitation.update(body);
-
-    await History.create({
-      id_solicitation: solicitation.id,
-      action: status,
-    });
-
-    return res.json({ success: 'Solicitação atualizada com sucesso!' });
   }
 }
 

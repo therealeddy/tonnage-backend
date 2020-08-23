@@ -3,7 +3,7 @@ import Role from '../models/Role';
 
 class UserController {
   async index(req, res) {
-    const { paged = 1, role } = req.query;
+    const { paged = 1, role, findAll = false } = req.query;
 
     const { rows, count } = await Role.findAndCountAll({
       where: {
@@ -11,7 +11,7 @@ class UserController {
       },
       attributes: [],
       order: [['id', 'DESC']],
-      limit: 5,
+      limit: findAll ? 1000000000 : 5,
       offset: (paged - 1) * 5,
       include: [
         {

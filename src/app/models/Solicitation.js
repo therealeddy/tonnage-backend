@@ -17,8 +17,8 @@ class Solicitation extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Route, { foreignKey: 'id_user', as: 'user' });
-    this.belongsTo(models.Route, {
+    this.belongsTo(models.User, { foreignKey: 'id_user', as: 'user' });
+    this.belongsTo(models.User, {
       foreignKey: 'id_user_trucker',
       as: 'user_trucker',
     });
