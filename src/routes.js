@@ -4,6 +4,7 @@ import TruckController from './app/controllers/TruckController';
 import ConfigurationController from './app/controllers/ConfigurationController';
 import SolicitationController from './app/controllers/SolicitationController';
 import SolicitationAdminController from './app/controllers/SolicitationAdminController';
+import SolicitationTruckerController from './app/controllers/SolicitationTruckerController';
 import HistoryController from './app/controllers/HistoryController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
@@ -39,6 +40,10 @@ routes.post('/requests', SolicitationController.store);
 routes.get('/requests-admin', SolicitationAdminController.index);
 routes.get('/requests-admin/:id', SolicitationAdminController.show);
 routes.put('/requests-admin/:id', SolicitationAdminController.update);
+
+routes.get('/requests-trucker', SolicitationTruckerController.index);
+routes.get('/requests-trucker/:id', SolicitationTruckerController.show);
+routes.put('/requests-trucker/:id', SolicitationTruckerController.update);
 
 routes.get('/histories', HistoryController.index);
 routes.get('/histories/:id', HistoryController.show);
