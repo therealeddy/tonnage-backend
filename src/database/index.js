@@ -7,10 +7,20 @@ import Route from '../app/models/Route';
 import History from '../app/models/History';
 import User from '../app/models/User';
 import Role from '../app/models/Role';
+import Card from '../app/models/Card';
 
 import databaseConfig from '../config/database';
 
-const models = [Truck, Configuration, Solicitation, Route, History, User, Role];
+const models = [
+  Truck,
+  Configuration,
+  Solicitation,
+  Route,
+  History,
+  User,
+  Role,
+  Card,
+];
 
 class Database {
   constructor() {

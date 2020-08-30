@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
 import TruckController from './app/controllers/TruckController';
+import TruckAssociationController from './app/controllers/TruckAssociationController';
+import TruckTruckerController from './app/controllers/TruckTruckerController';
 import ConfigurationController from './app/controllers/ConfigurationController';
 import SolicitationController from './app/controllers/SolicitationController';
 import SolicitationAdminController from './app/controllers/SolicitationAdminController';
@@ -8,6 +10,7 @@ import SolicitationTruckerController from './app/controllers/SolicitationTrucker
 import HistoryController from './app/controllers/HistoryController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+import CardController from './app/controllers/CardController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -32,6 +35,15 @@ routes.get('/trucks/:id', TruckController.show);
 routes.post('/trucks', TruckController.store);
 routes.put('/trucks/:id', TruckController.update);
 routes.delete('/trucks/:id', TruckController.delete);
+
+routes.get('/trucks-association', TruckAssociationController.index);
+routes.get('/trucks-association/:id', TruckAssociationController.show);
+
+routes.get('/truck-trucker', TruckTruckerController.index);
+
+routes.get('/cards', CardController.index);
+routes.post('/cards', CardController.store);
+routes.delete('/cards', CardController.delete);
 
 routes.get('/requests', SolicitationController.index);
 routes.get('/requests/:id', SolicitationController.show);
