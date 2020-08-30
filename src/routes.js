@@ -10,6 +10,7 @@ import SolicitationTruckerController from './app/controllers/SolicitationTrucker
 import HistoryController from './app/controllers/HistoryController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+import CardController from './app/controllers/CardController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -39,6 +40,10 @@ routes.get('/trucks-association', TruckAssociationController.index);
 routes.get('/trucks-association/:id', TruckAssociationController.show);
 
 routes.get('/truck-trucker', TruckTruckerController.index);
+
+routes.get('/cards', CardController.index);
+routes.post('/cards', CardController.store);
+routes.delete('/cards', CardController.delete);
 
 routes.get('/requests', SolicitationController.index);
 routes.get('/requests/:id', SolicitationController.show);
