@@ -15,6 +15,13 @@ class Truck extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.User, {
+      foreignKey: 'id_user_trucker',
+      as: 'user_trucker',
+    });
+  }
 }
 
 export default Truck;
