@@ -4,6 +4,7 @@ import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
 import User from '../models/User';
 import History from '../models/History';
+import Load from '../models/Load';
 
 class SolicitationAdminController {
   async index(req, res) {
@@ -44,6 +45,11 @@ class SolicitationAdminController {
           model: Route,
           as: 'route',
           attributes: ['destination_address', 'origin_address'],
+        },
+        {
+          model: Load,
+          as: 'load',
+          attributes: ['name'],
         },
       ],
     });
