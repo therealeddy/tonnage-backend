@@ -8,6 +8,7 @@ import History from '../app/models/History';
 import User from '../app/models/User';
 import Role from '../app/models/Role';
 import Card from '../app/models/Card';
+import Load from '../app/models/Load';
 
 import databaseConfig from '../config/database';
 
@@ -20,6 +21,7 @@ const models = [
   User,
   Role,
   Card,
+  Load,
 ];
 
 class Database {

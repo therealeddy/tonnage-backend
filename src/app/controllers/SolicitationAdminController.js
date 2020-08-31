@@ -2,6 +2,7 @@ import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
 import User from '../models/User';
 import History from '../models/History';
+import Load from '../models/Load';
 
 class SolicitationAdminController {
   async index(req, res) {
@@ -43,6 +44,11 @@ class SolicitationAdminController {
           as: 'user_trucker',
           attributes: ['name'],
         },
+        {
+          model: Load,
+          as: 'load',
+          attributes: ['name'],
+        },
       ],
     });
 
@@ -76,6 +82,11 @@ class SolicitationAdminController {
         {
           model: User,
           as: 'user_trucker',
+        },
+        {
+          model: Load,
+          as: 'load',
+          attributes: ['name', 'description', 'price'],
         },
       ],
     });

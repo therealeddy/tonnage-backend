@@ -1,6 +1,7 @@
 import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
 import History from '../models/History';
+import Load from '../models/Load';
 
 class SolicitationController {
   async index(req, res) {
@@ -23,6 +24,11 @@ class SolicitationController {
           model: Route,
           as: 'route',
           attributes: ['destination_address', 'origin_address'],
+        },
+        {
+          model: Load,
+          as: 'load',
+          attributes: ['name'],
         },
       ],
     });
@@ -49,6 +55,11 @@ class SolicitationController {
             'origin_longitude',
           ],
         },
+        {
+          model: Load,
+          as: 'load',
+          attributes: ['name', 'description', 'price'],
+        },
       ],
     });
 
@@ -70,6 +81,7 @@ class SolicitationController {
       origin_address,
       origin_latitude,
       origin_longitude,
+      id_load,
     } = body;
 
     const route = await Route.create({
@@ -86,6 +98,7 @@ class SolicitationController {
       id_route: route.id,
       status: 'create',
       description,
+      id_load,
     });
 
     await History.create({

@@ -11,6 +11,7 @@ import HistoryController from './app/controllers/HistoryController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import CardController from './app/controllers/CardController';
+import LoadController from './app/controllers/LoadController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -40,6 +41,12 @@ routes.get('/trucks-association', TruckAssociationController.index);
 routes.get('/trucks-association/:id', TruckAssociationController.show);
 
 routes.get('/truck-trucker', TruckTruckerController.index);
+
+routes.get('/loads', LoadController.index);
+routes.get('/loads/:id', LoadController.show);
+routes.post('/loads', LoadController.store);
+routes.put('/loads/:id', LoadController.update);
+routes.delete('/loads/:id', LoadController.delete);
 
 routes.get('/cards', CardController.index);
 routes.post('/cards', CardController.store);
