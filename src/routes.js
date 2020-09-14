@@ -68,5 +68,6 @@ routes.get('/histories', HistoryController.index);
 routes.get('/histories/:id', HistoryController.show);
 
 routes.get('/configurations', ConfigurationController.index);
+routes.put('/configurations', ConfigurationController.update);
 
 export default routes;
