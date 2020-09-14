@@ -23,7 +23,10 @@ class Solicitation extends Model {
       as: 'user_trucker',
     });
     this.belongsTo(models.Route, { foreignKey: 'id_route', as: 'route' });
-    this.belongsTo(models.Load, { foreignKey: 'id_load', as: 'load' });
+    this.belongsTo(models.Transaction, {
+      foreignKey: 'id_transaction',
+      as: 'transaction',
+    });
   }
 }
 

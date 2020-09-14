@@ -2,7 +2,7 @@ import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
 import User from '../models/User';
 import History from '../models/History';
-import Load from '../models/Load';
+import Transaction from '../models/Transaction';
 
 class SolicitationAdminController {
   async index(req, res) {
@@ -45,9 +45,9 @@ class SolicitationAdminController {
           attributes: ['name'],
         },
         {
-          model: Load,
-          as: 'load',
-          attributes: ['name'],
+          model: Transaction,
+          as: 'transaction',
+          attributes: ['name_load'],
         },
       ],
     });
@@ -84,9 +84,15 @@ class SolicitationAdminController {
           as: 'user_trucker',
         },
         {
-          model: Load,
-          as: 'load',
-          attributes: ['name', 'description', 'price'],
+          model: Transaction,
+          as: 'transaction',
+          attributes: [
+            'name_load',
+            'description_load',
+            'price_load',
+            'price_per_kilometer',
+            'price_total',
+          ],
         },
       ],
     });

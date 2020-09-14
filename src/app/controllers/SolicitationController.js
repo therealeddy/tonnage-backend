@@ -2,6 +2,7 @@ import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
 import History from '../models/History';
 import Load from '../models/Load';
+import Transaction from '../models/Transaction';
 
 class SolicitationController {
   async index(req, res) {
@@ -26,9 +27,9 @@ class SolicitationController {
           attributes: ['destination_address', 'origin_address'],
         },
         {
-          model: Load,
-          as: 'load',
-          attributes: ['name'],
+          model: Transaction,
+          as: 'transaction',
+          attributes: ['name_load'],
         },
       ],
     });
@@ -56,9 +57,15 @@ class SolicitationController {
           ],
         },
         {
-          model: Load,
-          as: 'load',
-          attributes: ['name', 'description', 'price'],
+          model: Transaction,
+          as: 'transaction',
+          attributes: [
+            'name_load',
+            'description_load',
+            'price_load',
+            'price_per_kilometer',
+            'price_total',
+          ],
         },
       ],
     });
@@ -74,15 +81,38 @@ class SolicitationController {
     const { body } = req;
 
     const {
+      id_load,
       description,
+      price_per_kilometer,
       destination_address,
       destination_latitude,
       destination_longitude,
       origin_address,
       origin_latitude,
       origin_longitude,
-      id_load,
     } = body;
+
+    const load = await Load.findByPk(id_load);
+
+    if (!load) {
+      return res.json({
+        error: 'Carga não encontrada, por favor tente novamente!',
+      });
+    }
+
+    const {
+      name: name_load,
+      description: description_load,
+      price: price_load,
+    } = load;
+
+    const { id: id_transaction } = await Transaction.create({
+      name_load,
+      description_load,
+      price_load,
+      price_per_kilometer,
+      price_total: price_load + price_per_kilometer,
+    });
 
     const route = await Route.create({
       destination_address,
@@ -94,11 +124,11 @@ class SolicitationController {
     });
 
     const solicitation = await Solicitation.create({
+      id_transaction,
       id_user: req.userId,
       id_route: route.id,
       status: 'create',
       description,
-      id_load,
     });
 
     await History.create({
