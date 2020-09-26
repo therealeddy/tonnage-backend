@@ -33,6 +33,7 @@
     "express-async-errors": "^3.1.1",
     "express-handlebars": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
+    "pagarme": "^4.13.0",
     "pg": "^8.0.3",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.7",
