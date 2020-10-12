@@ -131,6 +131,12 @@ class SolicitationAdminController {
 
     const { status } = body;
 
+    if (status === 'canceled') {
+      return res.json({
+        error: 'Você não tem permissão para cancelar uma solicitação!',
+      });
+    }
+
     const { id } = req.params;
 
     const solicitation = await Solicitation.findByPk(id);

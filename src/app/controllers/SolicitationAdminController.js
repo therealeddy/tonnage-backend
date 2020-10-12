@@ -1,8 +1,11 @@
+import pagarme from 'pagarme';
 import Solicitation from '../models/Solicitation';
 import Route from '../models/Route';
 import User from '../models/User';
 import History from '../models/History';
 import Transaction from '../models/Transaction';
+
+import pagarmeConfig from '../../config/pagarmeConfig';
 
 class SolicitationAdminController {
   async index(req, res) {
@@ -113,7 +116,29 @@ class SolicitationAdminController {
 
     const solicitation = await Solicitation.findByPk(id);
 
+    const { id_transaction } = solicitation;
+
     const { status: statusSoli } = solicitation;
+
+    if (statusSoli !== status && status === 'canceled') {
+      try {
+        const { id_pagarme } = await Transaction.findByPk(id_transaction);
+
+        const { api_key } = pagarmeConfig;
+
+        const client = await pagarme.client.connect({
+          api_key,
+        });
+
+        const transactionCanceled = await client.transactions.refund({
+          id: id_pagarme,
+        });
+
+        console.log(transactionCanceled);
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
     await solicitation.update(body);
 
