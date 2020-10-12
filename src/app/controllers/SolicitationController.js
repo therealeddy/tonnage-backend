@@ -4,8 +4,9 @@ import Route from '../models/Route';
 import History from '../models/History';
 import Load from '../models/Load';
 import Transaction from '../models/Transaction';
+import User from '../models/User';
 
-// import api_key from '../../config/pagarmeConfig';
+import pagarmeConfig from '../../config/pagarmeConfig';
 
 class SolicitationController {
   async index(req, res) {
@@ -119,64 +120,82 @@ class SolicitationController {
       card_cvv: cod,
     };
 
-    const cardValidation = pagarme.validate({
+    const cardValidation = await pagarme.validate({
       card,
     });
 
-    if (!cardValidation.card.card_number) {
+    if (
+      !cardValidation.card.card_holder_name ||
+      !cardValidation.card.card_number ||
+      !cardValidation.card.card_expiration_date ||
+      !cardValidation.card.card_cvv
+    ) {
       return res.json({
         error: 'Cartão invalido, verifique as informações cadastradas!',
       });
     }
 
-    // COBRAR -------------------------------------------------------------------
+    const { api_key } = pagarmeConfig;
 
-    // const card_hash = await client.security.encrypt(card);
+    const client = await pagarme.client.connect({
+      api_key,
+    });
 
-    // const client = await pagarme.client.connect({
-    //   api_key,
-    // });
+    const card_hash = await client.security.encrypt(card);
 
-    // const pagarmeTransaction = await client.transactions
-    //   .create({
-    //     amount: 100,
-    //     card_hash,
-    //     ...card,
-    //     payment_method: 'credit_card',
-    //     customer: {
-    //       external_id: `${req.userId}`,
-    //       country: 'br',
-    //       name: 'Eduardo Mauricio',
-    //       email: 'eduardo.mfonseca@hotmail.com',
-    //       phone_numbers: ['+5541996406389'],
-    //       type: 'individual',
-    //       documents: [{ type: 'cpf', number: '110.715.589-43' }],
-    //     },
-    //     billing: {
-    //       name: 'Trinity Moss',
-    //       address: {
-    //         country: 'br',
-    //         state: 'sp',
-    //         city: 'Cotia',
-    //         neighborhood: 'Rio Cotia',
-    //         street: 'Rua Matrix',
-    //         street_number: '9999',
-    //         zipcode: '06714360',
-    //       },
-    //     },
-    //     items: [
-    //       {
-    //         id: `${load.id}`,
-    //         title: load.name,
-    //         unit_price: 100,
-    //         quantity: 1,
-    //         tangible: true,
-    //       },
-    //     ],
-    //   })
-    //   .catch((error) => error.response.errors);
+    const {
+      name: name_user,
+      email: email_user,
+      cpf: cpf_user,
+      tel: tel_user,
+    } = await User.findByPk(req.userId);
 
-    // const { id: id_pagarme } = pagarmeTransaction;
+    const pagarmeTransaction = await client.transactions
+      .create({
+        amount: (price_load + price_per_kilometer) * 100,
+        card_hash,
+        ...card,
+        payment_method: 'credit_card',
+        customer: {
+          external_id: `${req.userId}`,
+          country: 'br',
+          name: name_user,
+          email: email_user,
+          phone_numbers: [`+55${tel_user.replace(/\D/g, '')}`],
+          type: 'individual',
+          documents: [{ type: 'cpf', number: cpf_user }],
+        },
+        billing: {
+          name: 'Trinity Moss',
+          address: {
+            country: 'br',
+            state: 'sp',
+            city: 'Cotia',
+            neighborhood: 'Rio Cotia',
+            street: 'Rua Matrix',
+            street_number: '9999',
+            zipcode: '06714360',
+          },
+        },
+        items: [
+          {
+            id: String(load.id),
+            title: load.name,
+            unit_price: 100,
+            quantity: 1,
+            tangible: true,
+          },
+        ],
+      })
+      .catch((error) => error.response);
+
+    if (pagarmeTransaction.errors) {
+      return res.json({
+        error: 'Ocorreu um erro na compra, por favor tente novamente!',
+      });
+    }
+
+    const { id: id_pagarme } = pagarmeTransaction;
 
     // CANCELANDO TRANSACAO -------------------------------------------------
 
@@ -185,6 +204,7 @@ class SolicitationController {
     // });
 
     const { id: id_transaction } = await Transaction.create({
+      id_pagarme,
       name_load,
       description_load,
       price_load,

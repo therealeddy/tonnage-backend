@@ -244,13 +244,6 @@ class UserController {
       return res.json({ error: 'Usuário não encontrado!' });
     }
 
-    const role = await Role.findOne({
-      where: {
-        id_user,
-      },
-    });
-
-    await role.destroy();
     await user.destroy();
 
     return res.json({ success: 'Usuário deletado com sucesso!' });
