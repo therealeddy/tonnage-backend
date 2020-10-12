@@ -1,3 +1,4 @@
+import pagarme from 'pagarme';
 import Card from '../models/Card';
 
 class CardController {
@@ -15,6 +16,18 @@ class CardController {
 
   async store(req, res) {
     const { numberCard } = req.body;
+
+    const cardValidation = await pagarme.validate({
+      card: {
+        card_number: numberCard,
+      },
+    });
+
+    if (!cardValidation.card.card_number) {
+      return res.json({
+        error: 'Cartão invalido, verifique as informações cadastradas!',
+      });
+    }
 
     const card = await Card.create({
       id_user: req.userId,

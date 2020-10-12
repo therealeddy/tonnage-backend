@@ -7,6 +7,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      id_pagarme: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       name_load: {
         type: Sequelize.STRING,
         allowNull: true,

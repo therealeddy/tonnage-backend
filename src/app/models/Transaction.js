@@ -4,6 +4,7 @@ class Transaction extends Model {
   static init(sequelize) {
     super.init(
       {
+        id_pagarme: Sequelize.INTEGER,
         name_load: Sequelize.STRING,
         description_load: Sequelize.STRING,
         price_load: Sequelize.FLOAT,
