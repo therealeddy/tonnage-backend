@@ -4,7 +4,9 @@ import Card from '../models/Card';
 class CardController {
   async index(req, res) {
     const card = await Card.findOne({
-      id_user: req.userId,
+      where: {
+        id_user: req.userId,
+      },
     });
 
     if (!card) {

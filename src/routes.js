@@ -12,6 +12,8 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import CardController from './app/controllers/CardController';
 import LoadController from './app/controllers/LoadController';
+import ManagementReportController from './app/controllers/ManagementReportController';
+import PersonalReportController from './app/controllers/PersonalReportController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -66,6 +68,9 @@ routes.put('/requests-trucker/:id', SolicitationTruckerController.update);
 
 routes.get('/histories', HistoryController.index);
 routes.get('/histories/:id', HistoryController.show);
+
+routes.get('/management-report', ManagementReportController.index);
+routes.get('/personal-report', PersonalReportController.index);
 
 routes.get('/configurations', ConfigurationController.index);
 routes.put('/configurations', ConfigurationController.update);
