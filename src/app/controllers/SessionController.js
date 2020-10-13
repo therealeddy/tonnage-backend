@@ -15,7 +15,7 @@ class SessionController {
       return res.json({ error: 'Usúario não encontrado!' });
     }
 
-    const { id } = user;
+    const { id, nickname: nick } = user;
 
     const { role } = await Role.findOne({
       where: { id_user: id },
@@ -23,6 +23,7 @@ class SessionController {
 
     return res.json({
       user: {
+        nickname: nick,
         role,
       },
       token: jwt.sign({ id }, authConfig.secret, {

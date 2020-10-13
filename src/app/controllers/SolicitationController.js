@@ -5,6 +5,7 @@ import History from '../models/History';
 import Load from '../models/Load';
 import Transaction from '../models/Transaction';
 import User from '../models/User';
+import Card from '../models/Card';
 
 import pagarmeConfig from '../../config/pagarmeConfig';
 
@@ -96,7 +97,7 @@ class SolicitationController {
         origin_latitude,
         origin_longitude,
       },
-      card: { numberCard, cod, dateValidity, holderName },
+      card: { numberCard, cod, dateValidity, holderName, hasCard },
     } = body;
 
     const load = await Load.findByPk(id_load);
@@ -108,17 +109,43 @@ class SolicitationController {
     }
 
     const {
+      name: name_user,
+      email: email_user,
+      cpf: cpf_user,
+      tel: tel_user,
+    } = await User.findByPk(req.userId);
+
+    const card = {};
+
+    if (hasCard) {
+      const { number: numberCardUser } = await Card.findOne({
+        where: {
+          id_user: req.userId,
+        },
+      });
+
+      if (!numberCardUser) {
+        return res.json({
+          error: 'Cartão invalido, verifique as informações cadastradas!',
+        });
+      }
+
+      card.card_holder_name = holderName;
+      card.card_expiration_date = dateValidity;
+      card.card_number = numberCardUser;
+      card.card_cvv = cod;
+    } else {
+      card.card_holder_name = holderName;
+      card.card_expiration_date = dateValidity;
+      card.card_number = numberCard;
+      card.card_cvv = cod;
+    }
+
+    const {
       name: name_load,
       description: description_load,
       price: price_load,
     } = load;
-
-    const card = {
-      card_holder_name: holderName,
-      card_expiration_date: dateValidity,
-      card_number: numberCard,
-      card_cvv: cod,
-    };
 
     const cardValidation = await pagarme.validate({
       card,
@@ -142,13 +169,6 @@ class SolicitationController {
     });
 
     const card_hash = await client.security.encrypt(card);
-
-    const {
-      name: name_user,
-      email: email_user,
-      cpf: cpf_user,
-      tel: tel_user,
-    } = await User.findByPk(req.userId);
 
     const pagarmeTransaction = await client.transactions
       .create({
@@ -196,12 +216,6 @@ class SolicitationController {
     }
 
     const { id: id_pagarme } = pagarmeTransaction;
-
-    // CANCELANDO TRANSACAO -------------------------------------------------
-
-    // const pagarmeTransactionCanceled = await client.transactions.refund({
-    //   id: id_pagarme,
-    // });
 
     const { id: id_transaction } = await Transaction.create({
       id_pagarme,
