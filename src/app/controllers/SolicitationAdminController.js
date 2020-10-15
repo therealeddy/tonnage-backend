@@ -14,6 +14,7 @@ class SolicitationAdminController {
       status = null,
       id_user = null,
       id_user_trucker = null,
+      findAll = false,
     } = req.query;
 
     const where = {};
@@ -33,7 +34,7 @@ class SolicitationAdminController {
     const { count, rows } = await Solicitation.findAndCountAll({
       where,
       order: [['id', 'DESC']],
-      limit: 5,
+      limit: findAll ? 1000000000 : 5,
       offset: (paged - 1) * 5,
       attributes: ['id', 'status', 'collection_date', 'created_at'],
       include: [
@@ -144,6 +145,7 @@ class SolicitationAdminController {
 
     if (statusSoli !== status) {
       await History.create({
+        id_user: req.userId,
         id_solicitation: solicitation.id,
         action: status,
       });

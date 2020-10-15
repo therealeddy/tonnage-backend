@@ -14,6 +14,7 @@ import CardController from './app/controllers/CardController';
 import LoadController from './app/controllers/LoadController';
 import ManagementReportController from './app/controllers/ManagementReportController';
 import PersonalReportController from './app/controllers/PersonalReportController';
+import UserUpdateController from './app/controllers/UserUpdateController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -72,7 +73,10 @@ routes.get('/histories/:id', HistoryController.show);
 routes.get('/management-report', ManagementReportController.index);
 routes.get('/personal-report', PersonalReportController.index);
 
+routes.get('/user-update', UserUpdateController.index);
+routes.put('/user-update', UserUpdateController.update);
+
 routes.get('/configurations', ConfigurationController.index);
-routes.put('/configurations', ConfigurationController.update);
+routes.get('/configurations', ConfigurationController.index);
 
 export default routes;

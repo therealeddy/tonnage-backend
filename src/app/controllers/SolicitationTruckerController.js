@@ -147,6 +147,7 @@ class SolicitationAdminController {
 
     if (statusSoli !== status) {
       await History.create({
+        id_user: req.userId,
         id_solicitation: solicitation.id,
         action: status,
       });
