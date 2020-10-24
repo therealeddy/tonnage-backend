@@ -4,6 +4,7 @@ import Route from '../models/Route';
 import User from '../models/User';
 import History from '../models/History';
 import Transaction from '../models/Transaction';
+import Evaluation from '../models/Evaluation';
 
 import pagarmeConfig from '../../config/pagarmeConfig';
 
@@ -97,6 +98,11 @@ class SolicitationAdminController {
             'price_per_kilometer',
             'price_total',
           ],
+        },
+        {
+          model: Evaluation,
+          as: 'evaluation',
+          attributes: ['evaluation', 'comment'],
         },
       ],
     });

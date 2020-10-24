@@ -5,6 +5,7 @@ import Route from '../models/Route';
 import User from '../models/User';
 import History from '../models/History';
 import Transaction from '../models/Transaction';
+import Evaluation from '../models/Evaluation';
 
 class SolicitationAdminController {
   async index(req, res) {
@@ -115,6 +116,11 @@ class SolicitationAdminController {
           model: Transaction,
           as: 'transaction',
           attributes: ['name_load'],
+        },
+        {
+          model: Evaluation,
+          as: 'evaluation',
+          attributes: ['evaluation', 'comment'],
         },
       ],
     });

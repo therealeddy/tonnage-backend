@@ -27,6 +27,10 @@ class Solicitation extends Model {
       foreignKey: 'id_transaction',
       as: 'transaction',
     });
+    this.belongsTo(models.Evaluation, {
+      foreignKey: 'id_evaluation',
+      as: 'evaluation',
+    });
   }
 }
 

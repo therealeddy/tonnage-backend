@@ -9,6 +9,7 @@ import {
 } from 'date-fns';
 import Solicitation from '../models/Solicitation';
 import Transaction from '../models/Transaction';
+import Evaluation from '../models/Evaluation';
 
 class ManagementReport {
   async index(req, res) {
@@ -83,6 +84,15 @@ class ManagementReport {
       ],
     });
 
+    const evaluations = await Evaluation.findAll({
+      attributes: ['evaluation'],
+      where: {
+        evaluation: {
+          [Op.ne]: null,
+        },
+      },
+    });
+
     return res.json({
       total,
       thisMonth,
@@ -92,6 +102,7 @@ class ManagementReport {
       rowsThisMonth,
       rowsThisWeek,
       rowsThisDay,
+      evaluations,
     });
   }
 }

@@ -6,6 +6,7 @@ import Load from '../models/Load';
 import Transaction from '../models/Transaction';
 import User from '../models/User';
 import Card from '../models/Card';
+import Evaluation from '../models/Evaluation';
 
 import pagarmeConfig from '../../config/pagarmeConfig';
 
@@ -71,6 +72,11 @@ class SolicitationController {
             'price_per_kilometer',
             'price_total',
           ],
+        },
+        {
+          model: Evaluation,
+          as: 'evaluation',
+          attributes: ['evaluation', 'comment'],
         },
       ],
     });

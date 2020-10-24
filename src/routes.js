@@ -15,6 +15,7 @@ import LoadController from './app/controllers/LoadController';
 import ManagementReportController from './app/controllers/ManagementReportController';
 import PersonalReportController from './app/controllers/PersonalReportController';
 import UserUpdateController from './app/controllers/UserUpdateController';
+import EvaluationController from './app/controllers/EvaluationController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -78,5 +79,7 @@ routes.put('/user-update', UserUpdateController.update);
 
 routes.get('/configurations', ConfigurationController.index);
 routes.get('/configurations', ConfigurationController.index);
+
+routes.post('/evaluation', EvaluationController.store);
 
 export default routes;
