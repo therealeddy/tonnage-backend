@@ -78,7 +78,7 @@ routes.get('/user-update', UserUpdateController.index);
 routes.put('/user-update', UserUpdateController.update);
 
 routes.get('/configurations', ConfigurationController.index);
-routes.get('/configurations', ConfigurationController.index);
+routes.put('/configurations', ConfigurationController.update);
 
 routes.post('/evaluation', EvaluationController.store);
 
