@@ -19,6 +19,10 @@ class History extends Model {
       foreignKey: 'id_solicitation',
       as: 'solicitation',
     });
+    this.belongsTo(models.User, {
+      foreignKey: 'id_user',
+      as: 'user',
+    });
   }
 }
 
